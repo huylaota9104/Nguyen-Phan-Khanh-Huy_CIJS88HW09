@@ -85,3 +85,19 @@ html {
 .checkbox-wrapper-18 .round input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.nav-tab {
+  cursor: pointer;
+}
+
+.active-tab {
+  cursor: pointer;
+  font-weight: bold;
+}

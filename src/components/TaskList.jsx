@@ -1,11 +1,17 @@
 import React from "react";
 import Task from "./Task";
 
-const TaskList = ({ tasks, onEditTask, onDeleteTask, onToggleCompleted }) => {
-  const reversedTasks = tasks.slice().reverse();
+const TaskList = ({ tasks, activeTab, onEditTask, onDeleteTask, onToggleCompleted }) => {
+  const filteredTasks =
+    activeTab === "all"
+      ? tasks
+      : activeTab === "active"
+      ? tasks.filter(task => !task.completed)
+      : tasks.filter(task => task.completed);
+
   return (
     <ul className=" ">
-      {reversedTasks.map((task) => (
+      {filteredTasks.map(task => (
         <Task
           key={task.id}
           task={task}

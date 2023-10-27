@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskList from "./components/TaskList";
+import Navbar from "./components/Navbar"; 
 import { MdDarkMode, MdSunny } from "react-icons/md";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const [tasks, setTasks] = useState(storedTasks);
   const [darkTheme, setDarkTheme] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = (title) => {
     const newTask = { id: Date.now(), title, completed: false };
@@ -50,11 +57,12 @@ function App() {
           darkTheme ? "text-white" : "text-black"
         }`}
       >
+        
         <div className=" w-full flex items-center justify-between">
           <h1 className=" uppercase text-4xl font-bold text-white tracking-widest mb-4 md:text-3xl">
            Todo List
           </h1>
-
+         
           {darkTheme ? (
             <MdSunny
               onClick={toggleTheme}
@@ -73,6 +81,7 @@ function App() {
             />
           )}
         </div>
+        <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
         <div className=" shadow-md">
           <AddTaskForm darkTheme={darkTheme} onAddTask={addTask} />
         </div>
@@ -95,6 +104,7 @@ function App() {
           {tasks.length ? (
             <TaskList
               tasks={tasks}
+              activeTab={activeTab}
               onEditTask={editTask}
               onDeleteTask={deleteTask}
               onToggleCompleted={toggleCompleted}
